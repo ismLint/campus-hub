@@ -10,18 +10,18 @@ import (
 )
 
 type Tasks struct {
-	id       int    `json:"id"`
-	title    string `json:"title"`
-	subject  string `json:"subject"`
-	status   string `json:"status"`
-	deadline string `json:"deadline"`
+	ID       int    `json:"id"`
+	Title    string `json:"title"`
+	Subject  string `json:"subject"`
+	Status   string `json:"status"`
+	Deadline string `json:"deadline"`
 }
 
 type UpdateTaskRequest struct {
-	title    *string `json:"title"`
-	subject  *string `json:"subject"`
-	status   *string `json:"status"`
-	deadline *string `json:"deadline"`
+	Title    *string `json:"title"`
+	Subject  *string `json:"subject"`
+	Status   *string `json:"status"`
+	Deadline *string `json:"deadline"`
 }
 
 var (
@@ -36,7 +36,7 @@ func main() {
 	mux.HandleFunc("GET /tasks", getTasks)
 	mux.HandleFunc("POST /tasks", createTasks)
 	mux.HandleFunc("PATCH /tasks/{id}", updateTasks)
-	mux.HandleFunc("/DELETE /tasks/{id}", deleteTasks)
+	mux.HandleFunc("DELETE /tasks/{id}", deleteTasks)
 
 	server := &http.Server{
 		Addr:              ":8082",
@@ -91,9 +91,9 @@ func createTasks(w http.ResponseWriter, r *http.Request) {
 	}
 
 	mu.Lock()
-	req.id = nextID
+	req.ID = nextID
 	nextID++
-	tasks[req.id] = req
+	tasks[req.ID] = req
 	mu.Unlock()
 
 	w.Header().Set("Content-Type", "application/json")
@@ -124,17 +124,17 @@ func updateTasks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if req.title != nil {
-		task.title = *req.title
+	if req.Title != nil {
+		task.Title = *req.Title
 	}
-	if req.subject != nil {
-		task.subject = *req.subject
+	if req.Subject != nil {
+		task.Subject = *req.Subject
 	}
-	if req.status != nil {
-		task.status = *req.status
+	if req.Status != nil {
+		task.Status = *req.Status
 	}
-	if req.deadline != nil {
-		task.deadline = *req.deadline
+	if req.Deadline != nil {
+		task.Deadline = *req.Deadline
 	}
 
 	tasks[id] = task

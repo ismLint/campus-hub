@@ -12,6 +12,7 @@ out/
 *.out
 coverage.out
 vendor/
+requests.http
 
 
 **/target
