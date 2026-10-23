@@ -23,10 +23,17 @@ func main() {
 
 	for update := range updates {
 		if update.Message != nil {
-			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-			bot.Send(msg)
+			continue
 		}
+		if update.Message.Text == "" {
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Please send a text message.")
+			bot.Send(msg)
+			continue
+		}
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		bot.Send(msg)
 	}
+
 }
